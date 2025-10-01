@@ -122,6 +122,7 @@ public:
 		PIMAGE_DOS_HEADER dosHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(module);
 		PIMAGE_NT_HEADERS ntHeader = reinterpret_cast<PIMAGE_NT_HEADERS>(module + dosHeader->e_lfanew);
 
+		#ifndef PATTERNS_DISABLE_BOUNDARY_CHECK
 		m_begin = module + ntHeader->OptionalHeader.BaseOfCode;
 		m_end = m_begin + ntHeader->OptionalHeader.SizeOfCode;
 
@@ -133,6 +134,7 @@ public:
 		{
 			return;
 		}
+		#endif
 
 		// Alternate heuristics - scan the entire executable, minus headers
 		const uintptr_t sizeOfHeaders = ntHeader->OptionalHeader.SizeOfHeaders;
